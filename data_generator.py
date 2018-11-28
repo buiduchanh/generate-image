@@ -40,17 +40,15 @@ class FakeTextDataGenerator(object):
         
         open_cv_image = np.array(image.convert('RGB')) 
         image = open_cv_image[:, :, ::-1].copy() 
-        cv2.imshow('original', image)
+
         im_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-        cv2.imshow('gray',im_gray)
         (thresh, im_bw) = cv2.threshold(im_gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-        cv2.imshow('binary',im_bw)
         color_img = cv2.cvtColor(im_bw, cv2.COLOR_GRAY2RGB)
-        cv2.imshow('back to colour',color_img)
+
         generator = BatchGenerator()
         final_image = generator.aug_image(color_img)
-        cv2.imshow('result',final_image)
-        cv2.waitKey(0)
+
+    
         # random_angle = random.randint(0-skewing_angle, skewing_angle)
 
         # rotated_img = image.rotate(skewing_angle if not random_skew else random_angle, expand=1)

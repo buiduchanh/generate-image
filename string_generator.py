@@ -14,20 +14,21 @@ def create_strings_from_file(filename, count):
     lines_filter =[]
     with open(filename, 'r', encoding="utf8") as f:
         lines = [l.strip()[0:200] for l in f.readlines()]
-
+        print('old string', len(lines))
         for l_ in lines:
             if 5 <= len(l_) <= 30:
                 lines_filter.append(l_)
-        lines = lines_filter
-
-        if len(lines) == 0:
+        line_xx = lines_filter
+        print('new string', len(line_xx))
+        if len(line_xx) == 0:
             raise Exception("No lines could be read in file")
-        print('len lines', len(lines))
+        print('len lines', len(line_xx))
+
         while len(strings) < count:
-            if len(lines) > count - len(strings):
-                strings.extend(lines[0:count - len(strings)])
+            if len(line_xx) > count - len(strings):
+                strings.extend(line_xx[0:count - len(strings)])
             else:
-                strings.extend(lines)
+                strings.extend(line_xx)
     return strings
 
 def create_strings_from_dict(length, allow_variable, count, lang_dict):

@@ -2,6 +2,7 @@ import argparse
 import os, errno
 import random
 import string
+import fontconfig
 
 from tqdm import tqdm
 from string_generator import (
@@ -35,6 +36,35 @@ def fonts(fontfiles):
                 uni_chars.append(uni_char)
             cmaps[fontfile] = uni_chars
     return cmaps
+
+def get_valid_fonts(strings, fontfiles):
+    valid_fonts = []
+    for text in strings:
+        font_list = fontfiles.copy()
+        random.shuffle(font_list)
+        get_font = None
+        while(len(font_list) > 0):
+            fontfile = random.choice(font_list)
+            font = fontconfig.FcFont(fontfile)
+
+            check_txt = True
+            for char in text:
+                if not font.has_char(char):
+                    check_txt = False
+                    break
+
+            if check_txt:
+                get_font = os.path.basename(fontfile)
+                break
+
+            font_list.remove(fontfile)
+
+        if get_font is None:
+            valid_fonts.append('error')
+        else: 
+            valid_fonts.append(get_font)
+
+    return valid_fonts
 
 def valid_range(s):
     if len(s.split(',')) > 2:
@@ -241,7 +271,7 @@ def parse_arguments():
         type=str,
         nargs="?",
         help="Define the text's color, should be either a single hex color or a range in the ?,? format.",
-        default='#282828'
+        default='#000000'
     )
 
     return parser.parse_args()
@@ -314,26 +344,34 @@ def main():
     string_count = len(strings)
     # print('count',string_count)
     p = Pool(args.thread_count)
-    realfont = []
-    for text_ in strings:
-        getfont = []
-        random.shuffle(fontfiles)
-        for fontfile in fontfiles:
-            check_txt = True
+    # realfont = []
+    # for text_ in strings:
+        # #print('text',text_)
+        # getfont = []
+        # random.shuffle(fontfiles)
+        # for fontfile in fontfiles:
+            # #print(fontfile)
+            # check_txt = True
 
-            fontfile = fontfile.split('/')[-1]
-            for char in text_:
-                if ord(char) not in cmaps[fontfile]:
-                    # print(cmaps[fontfile])
-                    check_txt = False
-                    break
-            if check_txt:
-                getfont.append(fontfile)
-                break
-        if not getfont:
-            realfont.append('error')
-        else: 
-            realfont.append(getfont[0])
+            # fontfile = fontfile.split('/')[-1]
+            # for char in text_:
+                # #print('char',char)
+                # if ord(char) not in cmaps[fontfile]:
+                    # #print(cmaps[fontfile])
+                    # check_txt = False
+                    # break
+            # if check_txt:
+                # getfont.append(fontfile)
+                # break
+        # if not getfont:
+            # realfont.append('error')
+        # else: 
+            # realfont.append(getfont[0])
+
+    realfont = get_valid_fonts(strings, fontfiles)
+    #print(len(realfont))
+    #for i in range(len(realfont)):
+        #print('%d: %s' % (i, realfont[i]))
     for _ in tqdm(p.imap_unordered(
         FakeTextDataGenerator.generate_from_tuple,
         zip(
