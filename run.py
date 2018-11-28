@@ -372,6 +372,12 @@ def main():
     #print(len(realfont))
     #for i in range(len(realfont)):
         #print('%d: %s' % (i, realfont[i]))
+
+    with open ('texts/valid_font.txt', 'a') as f_:
+        for font in realfont:
+            f_.writelines(font + '\n')
+        f_.close()
+        
     for _ in tqdm(p.imap_unordered(
         FakeTextDataGenerator.generate_from_tuple,
         zip(
