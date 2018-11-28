@@ -1,0 +1,5 @@
+verson1 :
+skew = 2
+background  = 0
+python3 run.py -i texts/final_all.txt -w 20 -f 64 -c 1456971
+
