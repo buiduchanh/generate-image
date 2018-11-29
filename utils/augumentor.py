@@ -72,7 +72,7 @@ class BatchGenerator():
         )
 
         self.p = Augmentor.Pipeline()
-        self.p.gaussian_distortion(probability=1, grid_width=4, grid_height=4, magnitude=8, corner="bell", method="in")
+        self.p.gaussian_distortion(probability=0.2, grid_width=4, grid_height=4, magnitude=8, corner="bell", method="in")
     
     def aug_image(self, image):
 
