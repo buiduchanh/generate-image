@@ -19,7 +19,7 @@ import os
 from fontTools.ttLib import TTFont
 from fontTools.unicode import Unicode
 
-FONTS_PATH = '/home/buiduchanh/WorkSpace/Deep_reader/TextRecognitionDataGenerator/fonts/japan'
+FONTS_PATH = '/home/asilla/hanh/TextReco/fonts/japan'
 def fonts(fontfiles):
     # with open(os.path.join(DATA_PATH, 'fontlist.txt')) as f:
     #     contents = f.readlines()
@@ -367,16 +367,21 @@ def main():
             # realfont.append('error')
         # else: 
             # realfont.append(getfont[0])
-
-    realfont = get_valid_fonts(strings, fontfiles)
+   
+    #realfont = get_valid_fonts(strings, fontfiles)
+    with open ('texts/valid_font.txt') as fonts_:
+        allfont = fonts_.readlines()
+    realfont = [xfont.strip() for xfont in allfont]
+    print('len font',len(realfont))
+   
     #print(len(realfont))
     #for i in range(len(realfont)):
         #print('%d: %s' % (i, realfont[i]))
 
-    with open ('texts/valid_font.txt', 'a') as f_:
-        for font in realfont:
-            f_.writelines(font + '\n')
-        f_.close()
+    #with open ('texts/valid_font.txt', 'a') as f_:
+    #    for font in realfont:
+    #        f_.writelines(font + '\n')
+    #    f_.close()
         
     for _ in tqdm(p.imap_unordered(
         FakeTextDataGenerator.generate_from_tuple,

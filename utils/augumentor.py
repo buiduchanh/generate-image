@@ -77,7 +77,7 @@ class BatchGenerator():
     def aug_image(self, image):
 
         image = self.aug_pipe.augment_image(image)
-        cv2.imshow('augument', image)
+        #cv2.imshow('augument', image)
         image = self.aug_distort([image])
         return image
 
