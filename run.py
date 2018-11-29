@@ -19,7 +19,7 @@ import os
 from fontTools.ttLib import TTFont
 from fontTools.unicode import Unicode
 
-FONTS_PATH = '/home/asilla/hanh/TextReco/fonts/japan'
+FONTS_PATH = '/home/buiduchanh/WorkSpace/Deep_reader/Textco/fonts/japan'
 def fonts(fontfiles):
     # with open(os.path.join(DATA_PATH, 'fontlist.txt')) as f:
     #     contents = f.readlines()
@@ -319,7 +319,7 @@ def main():
     # Create font (path) list
     fontfiles = load_fonts(args.language)
 
-    cmaps = fonts(fontfiles)
+    # cmaps = fonts(fontfiles)
     # print(cmaps['SNsanafonyu.ttf'])
     # exit()
     # 'SNsanafonyu.ttf'
@@ -373,7 +373,9 @@ def main():
         allfont = fonts_.readlines()
     realfont = [xfont.strip() for xfont in allfont]
     print('len font',len(realfont))
-   
+    
+    names = ['address_201081129_%07d.jpg' % i for i in range (string_count)]
+
     #print(len(realfont))
     #for i in range(len(realfont)):
         #print('%d: %s' % (i, realfont[i]))
@@ -387,6 +389,7 @@ def main():
         FakeTextDataGenerator.generate_from_tuple,
         zip(
             [i for i in range(0, string_count)],
+            names,
             strings,
             # [fonts[random.randrange(0, len(fonts))] for _ in range(0, string_count)],
             [os.path.join(FONTS_PATH, _ ) for _ in realfont],
