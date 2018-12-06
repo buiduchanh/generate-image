@@ -344,37 +344,15 @@ def main():
     string_count = len(strings)
     # print('count',string_count)
     p = Pool(args.thread_count)
-    # realfont = []
-    # for text_ in strings:
-        # #print('text',text_)
-        # getfont = []
-        # random.shuffle(fontfiles)
-        # for fontfile in fontfiles:
-            # #print(fontfile)
-            # check_txt = True
-
-            # fontfile = fontfile.split('/')[-1]
-            # for char in text_:
-                # #print('char',char)
-                # if ord(char) not in cmaps[fontfile]:
-                    # #print(cmaps[fontfile])
-                    # check_txt = False
-                    # break
-            # if check_txt:
-                # getfont.append(fontfile)
-                # break
-        # if not getfont:
-            # realfont.append('error')
-        # else: 
-            # realfont.append(getfont[0])
-   
-    #realfont = get_valid_fonts(strings, fontfiles)
-    with open ('texts/valid_font.txt') as fonts_:
-        allfont = fonts_.readlines()
-    realfont = [xfont.strip() for xfont in allfont]
-    print('len font',len(realfont))
     
-    names = ['address_201081129_%07d.jpg' % i for i in range (string_count)]
+   
+    # realfont = get_valid_fonts(strings, fontfiles)
+    # with open ('texts/valid_font.txt') as fonts_:
+    #     allfont = fonts_.readlines()
+    # realfont = [xfont.strip() for xfont in allfont]
+    # print('len font',len(realfont))
+    
+    names = ['address_201081206_%07d.jpg' % i for i in range (string_count)]
 
     #print(len(realfont))
     #for i in range(len(realfont)):
@@ -391,8 +369,8 @@ def main():
             [i for i in range(0, string_count)],
             names,
             strings,
-            # [fonts[random.randrange(0, len(fonts))] for _ in range(0, string_count)],
-            [os.path.join(FONTS_PATH, _ ) for _ in realfont],
+            [fontfiles[random.randrange(0, len(fontfiles))] for _ in range(0, string_count)],
+            # [os.path.join(FONTS_PATH, _ ) for _ in realfont],
             [args.output_dir] * string_count,
             [args.format] * string_count,
             [args.extension] * string_count,
